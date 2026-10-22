@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+
+# Runtime logs and user uploads
+logs/*
+uploads/*
+vendor/
+!uploads/export-logos/
+uploads/export-logos/*
+!uploads/export-logos/.gitkeep
+
+# Local development and editor files
+.idea/
+.vscode/
+*.local

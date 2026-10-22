@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: ojtsync
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health.php
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_NAME
+        value: OJTSync
+      - key: APP_URL
+        sync: false
+      - key: SESSION_SAVE_PATH
+        value: ""
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: DB_NAME
+        value: ojt_dtr
+      - key: DB_CHARSET
+        value: utf8mb4
+      - key: MAIL_FROM
+        sync: false
+      - key: MAIL_FROM_NAME
+        value: OJTSync
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "465"
+      - key: SMTP_SECURE
+        value: ssl
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLOUDINARY_UPLOAD_FOLDER
+        value: ojtsync/export-logos
