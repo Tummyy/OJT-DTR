@@ -3,8 +3,8 @@ FROM php:8.2-apache
 WORKDIR /var/www/html
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libcurl4-openssl-dev \
-    && docker-php-ext-install curl pdo_mysql \
+    && apt-get install -y --no-install-recommends libzip-dev unzip \
+    && docker-php-ext-install zip pdo_mysql \
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod rewrite
 
