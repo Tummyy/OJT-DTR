@@ -10,7 +10,9 @@ define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'ojt_dtr');
+define('DB_PORT', (int)(getenv('DB_PORT') ?: 3306));
 define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
+define('DB_SSL_CA', trim((string)(getenv('DB_SSL_CA') ?: '')));
 
 define('APP_NAME', getenv('APP_NAME') ?: 'OJTSync');
 define('APP_URL', getenv('APP_URL') ?: 'http://localhost/ojt-dtr');
@@ -37,12 +39,18 @@ define('CLOUDINARY_UPLOAD_FOLDER', trim((string)(getenv('CLOUDINARY_UPLOAD_FOLDE
 // PDO Connection — do not edit below unless necessary
 // ============================================================
 try {
-    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+    $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
+    if (DB_SSL_CA !== '') {
+        $options[PDO::MYSQL_ATTR_SSL_CA] = DB_SSL_CA;
+    } else {
+        // Aiven requires TLS; certificate verification can be enabled by setting DB_SSL_CA.
+        $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+    }
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (PDOException $e) {
     // Show a user-friendly error without exposing connection details in production.
